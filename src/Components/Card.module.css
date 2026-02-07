@@ -4,7 +4,7 @@
         padding: 10px;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: flex-end;
         background-color: #fff;
         border: 2px dashed #e2e2e2;
@@ -23,7 +23,7 @@
         font-size: 1.1rem;
     }
     
-    colo .card p {
+    .card p {
         color: #666;
         font-size: 0.9rem;
         font-weight: 600;
