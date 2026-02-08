@@ -3,11 +3,18 @@ import Card from "../Components/Card";
 import Loader from "../Components/Loader";
 import { useProducts } from "../Context/ProductContext";
 import styles from "./ProductPage.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaListUl } from "react-icons/fa";
 function ProductsPage() {
   const Products = useProducts();
+
+  const [displayed, setDisplayed] = useState([]);
   const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    setDisplayed(Products);
+  }, [Products]);
+
   const searchHandler = () => {};
   const categoryHandler = (e) => {
     const { tagName } = e.target;
@@ -30,8 +37,8 @@ function ProductsPage() {
       </div>
       <div className={styles.container}>
         <div className={styles.products}>
-          {!Products.length && <Loader />}
-          {Products.map((p) => (
+          {!displayed.length && <Loader />}
+          {displayed.map((p) => (
             <Card key={p.id} data={p} />
           ))}
         </div>
