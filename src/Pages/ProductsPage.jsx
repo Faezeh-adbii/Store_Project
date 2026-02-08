@@ -5,11 +5,14 @@ import { useProducts } from "../Context/ProductContext";
 import styles from "./ProductPage.module.css";
 import { useEffect, useState } from "react";
 import { FaListUl } from "react-icons/fa";
+import { filterProducts, searchProducts } from "../helpers/helper";
 function ProductsPage() {
   const Products = useProducts();
 
   const [displayed, setDisplayed] = useState([]);
+
   const [search, setSearch] = useState("");
+
   const [query, setQuery] = useState({});
 
   useEffect(() => {
@@ -17,18 +20,22 @@ function ProductsPage() {
   }, [Products]);
 
   useEffect(() => {
-    console.log(query);
+    let finalProducts = searchProducts(Products, query.search);
+    finalProducts=filterProducts(finalProducts, query.category);
+    setDisplayed(finalProducts);
   }, [query]);
 
   const searchHandler = () => {
     setQuery((query) => ({ ...query, search }));
   };
+
   const categoryHandler = (e) => {
     const { tagName } = e.target;
     const category = e.target.innerText.toLowerCase();
     if (tagName !== "LI") return;
     setQuery((q) => ({ ...q, category }));
   };
+
   return (
     <>
       <div>
@@ -45,8 +52,8 @@ function ProductsPage() {
       <div className={styles.container}>
         <div className={styles.products}>
           {!displayed.length && <Loader />}
-          {displayed.map((p) => (
-            <Card key={p.id} data={p} />
+          {displayed.map((Product) => (
+            <Card key={Product.id} data={Product} />
           ))}
         </div>
         <div>
