@@ -5,10 +5,11 @@ import styles from "./Card.module.css";
 import { useCart } from "../Context/CartContext";
 
 function Card({ data }) {
-  const [state, dispatch ] = useCart();
+  const [state, dispatch] = useCart();
+  console.log(state);
 
   const clickHandler = () => {
-    dispatch({ type: "add", payload: data });
+    dispatch({ type: "ADD_ITEM", payload: data });
   };
 
   return (
@@ -21,7 +22,7 @@ function Card({ data }) {
           <TbListDetails />
         </Link>
         <div>
-          <button onclick={clickHandler}>
+          <button onClick={clickHandler}>
             <TbShoppingBagCheck />
           </button>
         </div>
