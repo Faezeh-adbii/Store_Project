@@ -1,4 +1,4 @@
-import { useReducer, createContext, useContext } from "react";
+import { useReducer, createContext, useContext, act } from "react";
 import { sumProducts } from "../helpers/helper";
 
 const initialState = {
@@ -19,6 +19,41 @@ const reducer = (state, action) => {
         checkout: false,
         ...sumProducts(state.selectedItems),
       };
+    case "INCREASE":
+      const increaseIndex = state.selectedItems.findeIndex(
+        (i) => i.id == action.payload.id,
+      );
+      state.selectedItems[increaseIndex].quantity++;
+      return {
+        ...state,
+        ...sumProducts(state.selectedItems),
+      };
+    case "REMOVE_ITEM":
+      const newSelectedItems = state.selectedItems.filter(
+        (i) => i.id !== action.payload.id,
+      );
+      return {
+        ...state,
+        selectedItems: [...newSelectedItems],
+        ...sumProducts(newSelectedItems),
+      };
+    case "DECREASE_ITEM":
+      const decreaseIndex = state.selectedItems.findeIndex(
+        (i) => i.id == action.payload.id,
+      );
+      state.selectedItems[decreaseIndex].quantity--;
+      return {
+        ...state,
+        ...sumProducts(state.selectedItems),
+      };
+    case "CHECKOUT":
+      return {
+        selectedItems: [],
+        itemsCounter: 0,
+        total: 0,
+        checkout: true,
+      };
+
     default:
       throw new Error("Invalid Action");
   }
