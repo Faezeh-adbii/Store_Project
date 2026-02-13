@@ -5,8 +5,6 @@
 
 body {
     margin: auto;
-    display: flex;
-    place-items: center;
     max-width: 1200px;
     min-height: 100vh;
     padding: 10px;
